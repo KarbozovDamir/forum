@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/KarbozovDamir/Forum/internal/data"
-	"github.com/KarbozovDamir/Forum/web/router"
+	"github.com/KarbozovDamir/forum/internal/data"
+	"github.com/KarbozovDamir/forum/web/router"
 	_ "github.com/mattn/go-sqlite3"
 )
 

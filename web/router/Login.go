@@ -7,8 +7,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	data "github.com/damirkarbozov/Forum/internal/data"
-	utils "github.com/damirkarbozov/Forum/internal/utils"
+	data "github.com/KarbozovDamir/forum/internal/data"
+	utils "github.com/KarbozovDamir/forum/internal/utils"
 )
 
 //ViewData - struct to template html page

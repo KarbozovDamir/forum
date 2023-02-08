@@ -21,6 +21,6 @@ ADD web web/
 # Build application
 RUN go build -o main cmd/main.go
 
-EXPOSE 8080
+EXPOSE 8181
 
 CMD ["cmd/main.go"]

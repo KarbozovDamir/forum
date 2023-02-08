@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	data "github.com/KarbozovDamir/Forum/internal/data"
+	data "github.com/KarbozovDamir/forum/internal/data"
 )
 
 //ErrorHandler - Allow us to handle errors in forum
