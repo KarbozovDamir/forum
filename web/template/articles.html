@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+
+<body>
+
+    <div class="topnav" id="div1">
+        <a href="/articles">Articles</a>
+        <a href="/about">Contact</a>
+        <a href="/rules">Rules</a>
+        <a id="a8" href="/thread/create"><span>&#43;</span> Post New Thread</a>
+        <div class="login-container">
+            <a id="a5" href="/login">Log in</a>
+            <a id="a3" href="/register">Sign up</a>
+            <a id="a6" href="/id/{{.ID}}">My Profile</a>
+            <a id="a4" href="/logout">Log out</a>
+        </div>
+    </div>
+    <div class="tab">
+        <button class="tablinks" id="defaultOpen">Art 
+            <span class="badge" id="Artbadge">0</span>
+        </button>
+        <button class="tablinks">Animal 
+            <span class="badge" id="Animalbadge">0</span>
+        </button>
+        <button class="tablinks">Books 
+            <span class="badge" id="Booksbadge">0</span>
+        </button>
+        <button class="tablinks">Courses 
+            <span class="badge" id="Coursesbadge">0</span>
+        </button>
+        <button class="tablinks">Food 
+            <span class="badge" id="Foodbadge">0</span>
+        </button>
+        <button class="tablinks">Funny 
+            <span class="badge" id="Funnybadge">0</span>
+        </button>
+        <button class="tablinks">Free 
+            <span class="badge" id="Freebadge">0</span>
+        </button>
+        <button class="tablinks">Games 
+            <span class="badge" id="Gamesbadge">0</span>
+        </button>
+        <button class="tablinks">History 
+            <span class="badge" id="Historybadge">0</span>
+        </button>
+        <button class="tablinks">News 
+            <span class="badge" id="Newsbadge">0</span>
+        </button>
+        <button class="tablinks">Music 
+            <span class="badge" id="Musicbadge">0</span>
+        </button>
+        <button class="tablinks">Technology 
+            <span class="badge" id="Technologybadge">0</span>
+        </button>
+        <button class="tablinks">Trade 
+            <span class="badge" id="Tradebadge">0</span>
+        </button>
+        <button class="tablinks">Sport 
+            <span class="badge" id="Sportbadge">0</span>
+        </button>
+        <button class="tablinks">Oftop 
+            <span class="badge" id="Oftopbadge">0</span>
+        </button>
+    </div>
+    <div id="content">
+        <table id="Art" class="tabcontent"></table>
+        <table id="Animal" class="tabcontent"></table>
+        <table id="Books" class="tabcontent"></table>
+        <table id="Courses" class="tabcontent"></table>
+        <table id="Food" class="tabcontent"></table>
+        <table id="Fun" class="tabcontent"></table>
+        <table id="Free" class="tabcontent"></table>
+        <table id="Games" class="tabcontent"></table>
+        <table id="History" class="tabcontent"></table>
+        <table id="News" class="tabcontent"></table>
+        <table id="Music" class="tabcontent"></table>
+        <table id="Technology" class="tabcontent"></table>
+        <table id="Trade" class="tabcontent"></table>
+        <table id="Sport" class="tabcontent"></table>
+        <table id="Oftop" class="tabcontent">
+
+        </table>
+    </div>
+    <script>
+        document.body.querySelectorAll('.tablinks').forEach(item => {
+            item.addEventListener('click', event => {
+                document.getElementById('content').hidden = false
+                document.querySelectorAll('.tabcontent').forEach(item => (item.style.display = 'none'))
+                document.querySelectorAll('.tablinks').forEach(item => (item.className = 'tablinks'))
+                document.getElementById(event.target.innerHTML.split(' ')[0]).style.display = 'block'
+                event.target.className += ' active'
+            })
+        })
+
+        {
+            {
+                range $i, $v: = .Data
+            }
+        }
+        var taggs = '{{.Category}}'
+        var arr = taggs.split('$')
+        var ThreadID = {
+            {.ThreadID
+            }
+        }
+        var UserID = {
+            {.UserID
+            }
+        }
+        var Title = "{{.Title}}"
+        var Username = "{{.Username}}"
+        var date = "{{.Date}}"
+        var score = {
+            {.Likes
+            }
+        } - {
+            {.Dislikes
+            }
+        }
+        console.log(arr)
+        for (let i = 0; i < arr.length; i++) {
+
+            document.getElementById(arr[i]).insertAdjacentHTML('beforeend', `<td class='con'><a id ="${ThreadID}" href="thread/${ThreadID}" class='title' target='_blank' style="text-decoration:none;color:white;font-size:10pt;" >${Title}</a><br/><span class="subtext">${score} score by <a href="/id/${UserID}" target="_blank" style="text-decoration:none;color:white;">${Username}</a> on ${date}</span></td>`)
+
+        } {
+            {
+                end
+            }
+        }
+        if ("{{.Authorised}}" == "true") {
+            $('#a6').show()
+            $('#a4').show()
+            $('#a8').show()
+        } else {
+            $('#a5').show()
+            $('#a3').show()
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+
+<body>
+
+    <div class="topnav" id="div1">
+        <a href="/articles">Articles</a>
+        <a href="/about">Contact</a>
+        <a href="/rules">Rules</a>
+        <div class="login-container">
+            <a id="a5" href="/login">Log in</a>
+            <a id="a3" href="/register">Sign up</a>
+            <a id="a6" href="/id/{{.ID}}">My Profile</a>
+            <a id="a4" href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <div id="div3">
+        <p id="p7"> 1. General rules</p>
+        <div id="div5">1.1. The message must carry the semantic in nature, the post should not contain only a smile. Messages, containing only "thank you", "personal received" and similar are considered for flud.</div>
+        <div id="div5">1.2. Before creating themes with request to find, to download or to ask something, it is recommended to use the search (upper right corner), because such a topic can already be raised by someone else, and Yours will only clog the forum.</div>
+        <div id="div5">1.3. Secure your account: put two-factor authentication on your account and mail</div>
+        <div id="div5">1.4. Be polite. In section "Offtopic" and personal messages there is no punishment for violation of this rules. Add a user to the blacklist if you do not like to communicate with them. It is forbidden to mention the parents of users, death wishes
+            to someone from users or their parents. The forum team has the right to block the user in cases of repeated inappropriate / disrespectful / abusive relationship to the Users of the forum / Team forum. Make complaints against lock data will
+            be reviewed by the forum Administration.</div>
+        <div id="div5">1.4.1. Prohibited direct or indirect insults team forum (Curator, the moderator, the main moderator, Arbitrator, Administrator) in personal messages or on contacts provided in profile. Appeal against actions of the staff recommended in the section
+            Complaint.</div>
+        <div id="div5">1.5. When exchanging information from the site, be sure to specify the source.</div>
+        <div id="div5">1.6. The site contains content intended for persons over the age of 18.</div>
+        <div id="div5">1.7. On forum there is FAQ, and also the partition Guides on forum</div>
+        <div id="div5">1.8. The site does not adhere to a certain nationality, but it is customary to communicate in English on the forum.</div>
+        <br/>
+        <p id="p7"> 2. The rules of the forum</p>
+        <div id="div5">2.1. Advertising your store/site/channel/group will be punished by adding your store or site in the blacklist and blocking your account.</div>
+        <div id="div5">2.2. Topics of the following types are prohibited:</div>
+        <ul>
+            <li id="p6">Useless themes (with the exception of the category of "Offtopic"), messages with screamer, climbathon, shock content.</li>
+            <li id="p6">pyramids, HYIPs, airdrops, ICO, Bounty, raising, multiplying other people's money.</li>
+            <li id="p6">forecasts, bets on sports / gaming events.</li>
+            <li id="p6">packs of software/programs.</li>
+            <li id="p6">giveaways of rubles, VK coin, likes and views of VK, steam autoregs, distribution of requests (accounts with certain letters).</li>
+            <li id="p6">giveaways of paintings, + rep in profiles.</li>
+            <li id="p6">with questions like "how to quickly raise sympathy" and similar.</li>
+        </ul>
+        <div id="div5">2.3. Cheating, buying / selling sympathy is prohibited.</div>
+        <div id="div5">2.4. Begging for sympathy is prohibited. Similarly prohibited hints to the fact that the user put the sympathy (sympathy increases the chance, put simpy-give accounts, etc.).</div>
+        <div id="div5">2.5. Distribution of malicious files is prohibited.</div>
+        <div id="div5">2.6. Creating a secondary account is possible only with the permission of the administrator Lanskoy. If the main account is blocked, all other accounts will also be blocked. Selling profile from this forum is prohibited. </div>
+        <div id="div5">2.7. Prohibited from merged private information (Hidden content) with this forum . Asking merged Hidden content with this forum prohibited from. Sell Hidden content with this forum likewise prohibited from.</div>
+        <div id="div5">2.8. When laying out any Executive file, as well as DLL libraries, you must attach a link to http://www.virustotal.com</div>
+        <div id="div5">2.9. Disclosure of personal information about a person is prohibited.</div>
+        <div id="div5">2.10. Use of abbreviated links is prohibited.</div>
+        <div id="div5">2.11. "Harming/Hacking/DDoSing other Sites/Forums on behalf of "Lolzteam" - is Prohibited. Engage in this activities on their own not mentioning this forum</div>
+        <div id="div5">2.12. Topics should be placed in the appropriate sections.</div>
+        <div id="div5">2.13. Overuse of "CAPS LOCK" is prohibited.</div>
+        <div id="div5">2.14. If you were deceived - Create subject in section Arbitration.</div>
+        <div id="div5">2.15. It is forbidden to upload files on file sharing ska4ay.com, mediadisk.net and similar.</div>
+        <div id="div5">2.16. It is forbidden to raise old inactive topics.</div>
+        <div id="div5">2.17. Asking of "personal" is only allowed in PM the author of the theme, it is forbidden to do it in the theme. Exception - topics with giveaways (accounts, keys, items etc), except for the giveaways database.</div>
+        <div id="div5">2.18. It is forbidden to place referral links without specifying a non-referral link.</div>
+        <div id="div5">2.20. Raising the topic with the words "Up", "relevant" is prohibited. To do this, there is a button "Bump", which is in the menu when you click on "theme Options".</div>
+        <div id="div5">2.21. Begging is forbidden (give me 100$, give account similar), similarly, it is forbidden to ask for a product/service for a review in the topic (in private messages allowed).</div>
+        <div id="div5">2.22. Carding, programs/scripts / panels/stressors for Ddos attacks are prohibited.</div>
+        <div id="div5">2.23. Use the construction of "easy sympathy", "thank you", "i will give you sympathy" and the similar is prohibited. The exception is the section Write a review, + rep, like.</div>
+        <div id="div5">2.24. The topic title should briefly display its essence, prohibited titles of the form "Help!!", "All here", "help", " what to do??", "help" and the like.</div>
+        <div id="div5">2.25. Avatars users should not contain pornographic materials, calligraphy, similar color, texts or form of on banner paid groups color, banners team forum (Legend, Team forum, Arbiter and so on).</div>
+        <br/>
+        <p id="p7"> 3. Trading/selling</p>
+        <div id="div5">3.1. The title of the topic in the trade section should reveal the essence of the content of the topic.</div>
+        <div id="div5">3.2. The price of goods/services must necessarily be specified in the topic.</div>
+        <div id="div5">3.3. The topic should contain a description of the product or service. If you sell an item, there should be a link to the profile and (or) a few screenshots of the profile / inventory. Specify the origin of things (Brut/personal).</div>
+        <div id="div5">3.4. Forbidden themes for the sale of deanonymization services (documents, mobile, etc.).</div>
+        <div id="div5">3.5. If a person with a block "Team forum" under the avatar , so he has the right to inspect your product. Failure to verify will be regarded as fraud. At the time of verification, the inspector closes the topic, after-opens and writes a review
+            of the product / service.</div>
+        <div id="div5">3.6. By engaging in commercial activities on the forum, you automatically agree to conduct any transactions through the guarantor of this site.</div>
+        <div id="div5">3.7. It is is prohibited to sell any of the methods, manuals, training for money, this also applies to stores posted on this forum.</div>
+        <div id="div5">3.8. Users with the group Beginner, Local do not have the right to sell logs, private software, installations, scripts, as well as to place stores in the "Trade" section and its subsections. Violators will be punished and their theme will be removed.
+            To get this opportunity, you need to buy Seller or Suprime or pump your account to the group Trusted</div>
+        <div id="div5">3.9 It is prohibited to make themes with services about hacking mails, pages, about sale SOFTWARE for conducting Ddos attacks, botnets, DDoS panels (stressors).</div>
+        <div id="div5">3.10. Prohibited topics related to the documents of citizens of any country (sale of scans, certificates, drawing fake documents).</div>
+        <div id="div5">3.11. Prohibited trade accounts, gifts, Bank balances, paypal, amazon, ebay, walmart (as well as credit cards), prohibited topics about hammering anything from accounts, cards, prohibited the sale of goods received through the "hammering".</div>
+        <div id="div5">3.12. Prohibited topics about the sale/purchase / exchange of the balance of the market.</div>
+        <div id="div5">3.13. It is forbidden to sell packs of bases, except the dump sites, or permission from the Administration of the forum.</div>
+        <div id="div5">3.14. Topics with selling accounts from third-party forums are prohibited.</div>
+        <div id="div5">3.15. The review of the product or service should contain evidence of your words: screenshots of conversation, checks of transactions, photographs of the work performed.</div>
+        <br/>
+        <p id="p7"> 4. The content of the website:</p>
+        <div id="div5">There is no prohibited information in the public access. </div>
+        <div id="div5">On the forum there are closed sections and the system of "hide content" is a personal correspondence between the participants of the forum, access to which is closed to strangers.</div>
+        <div id="div5">Disclosure of sensitive information of users (i.e., any information under the hide content or closed sections) is prohibited, this information is confidential and cannot be used against the administration of the forum.</div>
+        <div id="div5">Complaints about content that violates the law are accepted only on the content of the site in the public domain.</div>
+        <div id="div5">Private information is private and not moderated.</div>
+        <div id="div5">The user is not willing to look information under Hyde should inform and access will be disabled in all other cases, any screenshots or data from closed sections will be regarded as obtained by hacking the accounts of users of the website, or
+            obtained by fraud, in violation of the site rules and legislation.</div>
+        <div id="div5">Providing screenshots of private correspondence, private information is a violation of the privacy of private correspondence, such information can not be transferred to people who do not have access to it. Access to private information can be
+            obtained only by users of the site, and users of the site are familiar with and agree to these rules of the site, as they ticked when registering.</div>
+        <div id="div5">All content of the site is left by the users of the site and does not pass any verification. The closed content of the site is the private correspondence of users and is closed for viewing by unauthorized people.</div>
+        <br/>
+        <p id="p7"> 4. The content of the website:</p>
+        <div id="div5">User registration on the Forum is free, voluntary and means unconditional acceptance of these Rules, available.</div>
+        <div id="div5">The user is responsible for the accuracy, relevance, completeness and compliance with the current legislation of the information provided during registration and its purity from claims of third parties. </div>
+        <div id="div5">The administration is not responsible for the content of sites hosted in the cap forum. The administration has the right to store, process and provide to third parties any data received from the user, including "Personal data", including receiving
+            this information from "Third parties", at its discretion, without additional approvals. In this case, the User has no right to demand any compensation from the Administration. </div>
+        <div id="div5">The user agrees to receive information, including advertising, by e-mail, phone and other details specified in </div>
+        <div id="div5">The user's personal profile from the Administration and third parties.the User accepts the services of the Forum on the principle of "As is", Without any guarantees from the Administration. </div>
+        <div id="div5">The administration is not responsible for the performance of the Site, direct or indirect losses resulting from its use or non-use, as well as technical failures. The administration has the right to unilaterally block any User's access to the
+            Forum, block and / or delete the User's account, edit The user's account data, remove from the Site any material posted by the User unilaterally without explanation. </div>
+        <br/><br/>
+    </div>
+    <script>
+        if ("{{.Authorised}}" == "true") {
+            $('#a6').show()
+            $('#a4').show()
+
+        } else {
+            $('#a5').show()
+            $('#a3').show()
+        }
+    </script>
+
+</body>
+
+</html>

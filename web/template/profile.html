@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+
+<body>
+
+    <div class="topnav" id="div1">
+        <a href="/articles">Articles</a>
+        <a href="/about">Contact</a>
+        <a href="/rules">Rules</a>
+        <div class="login-container">
+            <a id="a5" href="/login">Log in</a>
+            <a id="a3" href="/register">Sign up</a>
+            <a id="a6" href="/id/{{.ID}}">My Profile</a>
+            <a id="a4" href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <div id="div3">
+        <div id="div9">
+            <div id="profileStats">
+
+                <img src="{{.Image}}" id="profileImage">
+                <div style="margin-left: 210px;">
+                    <p id="p8"> User: {{.Title}}</p>
+                    <p id="p8"> Mail: {{.Result}}</p>
+                    {{$x := .Title}}
+                </div>
+            </div>
+            <div id="editImageAva">
+                <form name="upload" id="newAva" action="/updateProfileImage/{{.ID}}" enctype="multipart/form-data" method="post">
+                    <input type="file" accept="image/*" name="FileImage" id="inpFile">
+                    <input type="submit" value="OK" class="acceptAva"></input>
+                </form>
+            </div>
+            <script src="/static/scripts/scripts.js"></script>
+
+            <br>
+            <button class="butlist" id="butlist">Created posts({{.CountOfPosts}})</button>
+            <button class="butlist" id="butlist2">Liked posts({{.CountOfLikedThreads}})</button>
+            <button class="butlist" id="butlist3">Liked comments({{.CountOfLikedComments}})</button>
+            <ul class="posts">
+                {{range $i, $v := .Data}}
+                <li class="some"><a href="/thread/{{.ThreadID}}" style="text-decoration:none" id="listthread">{{.Title}}</a></li>
+                {{end}}
+            </ul>
+            <ul class="posts">
+                {{range $i, $v := .Data2}}
+                <li class="some2"><a href="/thread/{{.ThreadID}}" style="text-decoration:none" id="listthread">{{.Title}}</a></li>
+                {{end}}
+            </ul>
+            <ul class="posts">
+                {{range $i, $v := .Data3}}
+                <li class="some3"><a href="/thread/{{.ToThreadID}}#{{.ThreadID}}" style="text-decoration:none" id="listthread">Go to Thread #{{.ToThreadID}}: {{$x}} liked comment #{{.ThreadID}} </a></li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+    <script>
+        console.log("{{.Me}}")
+        if ("{{.Me}}" == "true") {
+            document.getElementById("editImageAva").style.display = 'block'
+        }
+        $(document).ready(function() {
+            $("#butlist").click(function() {
+                if ("{{.Authorised}}" == "true") {
+                    $(".some").toggle();
+                    $(".some2").attr('style', 'display:none');
+                    $(".some3").attr('style', 'display:none');
+                } else {
+                    window.alert("Guests can't view this info. Please log in or register")
+                }
+            });
+            $("#butlist2").click(function() {
+                if ("{{.Authorised}}" == "true") {
+                    $(".some2").toggle();
+                    $(".some").attr('style', 'display:none');
+                    $(".some3").attr('style', 'display:none');
+                } else {
+                    window.alert("Guests can't view this info. Please log in or register")
+                }
+            });
+            $("#butlist3").click(function() {
+                if ("{{.Authorised}}" == "true") {
+                    $(".some3").toggle();
+                    $(".some").attr('style', 'display:none');
+                    $(".some2").attr('style', 'display:none');
+                } else {
+                    window.alert("Guests can't view this info. Please log in or register")
+                }
+            });
+        });
+    </script>
+    <script>
+        if ("{{.Authorised}}" == "true") {
+            $('#a6').show()
+            $('#a4').show()
+        } else {
+            $('#a5').show()
+            $('#a3').show()
+        }
+    </script>
+
+
+
+</body>
+
+</html>

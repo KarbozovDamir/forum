@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+
+<body>
+
+    <div class="topnav" id="div1">
+        <a href="/articles">Articles</a>
+        <a href="/about">Contact</a>
+        <a href="/rules">Rules</a>
+        <div class="login-container">
+            <a id="a5" href="/login">Log in</a>
+            <a id="a3" href="/register">Sign up</a>
+            <a id="a6" href="/id/{{.ID}}">My Profile</a>
+            <a id="a4" href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <div id="div3">
+        <div id="div6">
+            <p id="p8"> {{.Title}}</p>
+            <p id="p6">Thread created by <a href="/id/{{.Result}}" style="text-decoration:none" id="a2">{{.Result}}</a> on {{.Time}}</p>
+        </div>
+    </div>
+    {{range $i, $v := .Data}}
+    <div id="{{.ThreadID}}">
+        <div id="div8">
+            <div id="div9">
+                <a href="/id/{{.UserID}}" style="text-decoration:none" id="a2">{{.Username}}</a> 
+                {{if (eq $i 0)}}
+                <o id="p6" style="margin-left:2px;box-sizing: border-box;border: 2px solid #ccc;border-radius: 30px;;color:rgb(223, 178, 56)"> Thread Starter </o>
+                {{else}}
+                <o id="p6"> #{{.ThreadID}}</o>
+                {{end}}
+                <o id="p9">{{.Date}}</o>
+                <br>
+                {{if .Image}}
+                <img src="/static/images/Thread{{.ThreadID}}" style="width: 100%;">
+
+                <pre id="p6">{{.Content}}</pre>
+                <i class="fa fa-thumbs-up" id="{{.ThreadID}}1">{{.Likes}}</i>
+                <i class="fa fa-thumbs-down" id="{{.ThreadID}}2">{{.Dislikes}}</i>
+                {{else}}
+                <pre id="p6">{{.Content}}</pre>
+                <i class="fa fa-thumbs-up" id="{{.ThreadID}}1">{{.Likes}}</i>
+                <i class="fa fa-thumbs-down" id="{{.ThreadID}}2">{{.Dislikes}}</i>
+                {{end}}
+                
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('html, body').hide();
+
+            if (window.location.hash) {
+                setTimeout(function() {
+                    $('html, body').scrollTop(0).show();
+                    $('html, body').stop(true, false).animate({
+                        scrollTop: $(window.location.hash).offset().top
+                    }, 1000)
+                }, 0);
+            } else {
+                $('html, body').show();
+            }
+        });
+        if ('{{.Liked}}' == "1") {
+            $('#{{.ThreadID}}1').attr('style', 'color: darkblue');
+        }
+        if ('{{.Liked}}' == "-1") {
+            $('#{{.ThreadID}}2').attr('style', 'color: darkblue');
+        }
+        console.log('{{.Liked}}');
+        $('#{{.ThreadID}}1').on('click', function() {
+            $.ajax({
+                url: '/stats',
+                type: 'post',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    ThreadID: '{{.ThreadID}}',
+                    Value: 1,
+                    Likes: '{{.Likes}}',
+                    Dislikes: '{{.Dislikes}}',
+                    Liked: '{{.Liked}}'
+                }),
+                dataType: 'json',
+                success: function(response) {
+                    $('#{{.ThreadID}}1').html(response.Likes)
+                    $('#{{.ThreadID}}2').html(response.Dislikes)
+                    if (response.Liked == 0) {
+                        $('#{{.ThreadID}}1').attr('style', 'color: white');
+                        $('#{{.ThreadID}}2').attr('style', 'color: white');
+                    }
+                    if (response.Liked == 1) {
+                        $('#{{.ThreadID}}1').attr('style', 'color: darkblue');
+                        $('#{{.ThreadID}}2').attr('style', 'color: white');
+                    }
+                    if (response.Liked == -1) {
+                        $('#{{.ThreadID}}1').attr('style', 'color: white');
+                        $('#{{.ThreadID}}2').attr('style', 'color: darkblue');
+                    }
+                }
+            });
+        });
+        $('#{{.ThreadID}}2').on('click', function() {
+            $.ajax({
+                url: '/stats',
+                type: 'post',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    ThreadID: '{{.ThreadID}}',
+                    Value: -1,
+                    Likes: '{{.Likes}}',
+                    Dislikes: '{{.Dislikes}}',
+                    Liked: '{{.Liked}}'
+                }),
+                dataType: 'json',
+                success: function(response) {
+                    $('#{{.ThreadID}}1').html(response.Likes)
+                    $('#{{.ThreadID}}2').html(response.Dislikes)
+                    if (response.Liked == 0) {
+                        $('#{{.ThreadID}}1').attr('style', 'color: white');
+                        $('#{{.ThreadID}}2').attr('style', 'color: white');
+                    }
+                    if (response.Liked == 1) {
+                        $('#{{.ThreadID}}1').attr('style', 'color: darkblue');
+                        $('#{{.ThreadID}}2').attr('style', 'color: white');
+                    }
+                    if (response.Liked == -1) {
+                        $('#{{.ThreadID}}1').attr('style', 'color: white');
+                        $('#{{.ThreadID}}2').attr('style', 'color: darkblue');
+                    }
+                }
+            });
+        });
+    </script>
+    {{end}}
+    <div id="div11">
+        <div id="div10">
+            <form action="" id="shityform" name="Please Work" method="POST">
+                <textarea rows="2" name="comment" form="shityform" id="comment2" placeholder="Enter your comment here..." required></textarea>
+                <button type="submit" class="button button1">></button>
+            </form>
+        </div>
+    </div>
+    <script>
+        $("#comment2").keypress(function (e) {
+
+        if(e.which === 13 && !e.shiftKey && $("#comment2").val().trim().length > 0) {
+            e.preventDefault();
+            $(this).closest("form").submit();
+            }
+        });
+
+        if ("{{.Authorised}}" == "true") {
+            $('#a6').show()
+            $('#a4').show()
+            $('#div11').show()
+        } else {
+            $('#a5').show()
+            $('#a3').show()
+        }
+    </script>
+
+
+
+</body>
+
+</html>

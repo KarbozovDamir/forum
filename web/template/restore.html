@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+
+<body>
+
+    <div class="topnav" id="div1">
+        <a href="/articles">Articles</a>
+        <a href="/about">Contact</a>
+        <a href="/rules">Rules</a>
+        <div class="login-container">
+            <a id="a5" href="/login">Log in</a>
+            <a id="a3" href="/register">Sign up</a>
+            <a id="a6" href="/id/{{.ID}}">My Profile</a> \ <a id="a4" href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <div class="container mt-3" id="div2">
+        <form action="/restore" method="POST">
+            <p id="p1"> Restore your account</p>
+            <input type="text" placeholder="Username" name="username" pattern=".{1,}" title="Please type something" required>
+            <br/>
+            <input type="password" placeholder="New password" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+
+            <input type="text" placeholder="Restore Code" name="code" id="code" pattern=".{1,}" title="Please type something" required>
+            <br/>
+            <br>
+            <button type="submit" id="but1">Restore</button>
+            <br/>
+            <p id="p2"> {{ .Result }}</p>
+        </form>
+    </div>
+    <script>
+        if ("{{.Authorised}}" == "true") {
+            $('#a6').show()
+            $('#a4').show()
+
+        } else {
+            $('#a5').show()
+            $('#a3').show()
+        }
+    </script>
+
+</body>
+
+</html>

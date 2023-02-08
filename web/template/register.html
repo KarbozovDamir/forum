@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+<body>
+    <div class="topnav" id="div1">
+      <a href="/articles">Articles</a>
+      <a href="/about">Contact</a>
+      <a href="/rules">Rules</a>
+        <div class="login-container">
+          <a href="./login.html">Log in</a>
+          <a href="./register.html">Sign up</a>
+        </div>
+    </div>
+     <div class="container mt-3" id="div2">
+      <form action="/" method="POST" id="form">
+            <p id="p1"> Join to our community </p>
+            <input type="text" placeholder="Username" name="username" pattern="^[A-Za-z0-9]+$" title="Username must consist only with latin chars and digits" id="username" required>
+            <br/>
+            <input type="text" placeholder="Mail" name="mail" pattern="^[A-Za-z0-9](\.?[A-Za-z0-9]){5,}@g(oogle)?mail\.com$" title="Only gmail post can be register" id="email" required>
+            <br/>
+            <input type="password" placeholder="Password" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+            <br/>
+            <span id="span1"></span>
+            
+            <br/>
+            <button type="submit" id="but1">Sign up</button>
+            <br/>
+            <a href="./login.html" style="text-decoration:none" id="a2"><p id="p2">Sign in</p></a>
+          </form>
+   
+     </div>
+     <div id="message" class="container mt-3">
+        <h3 id="h3">Password must contain the following rules:</h3>
+        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+        <p id="number" class="invalid">A <b>number</b></p>
+        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+      </div>
+  
+      <script>
+        var username_state = false;
+        var email_state = false;
+        $('#username').on('blur', function(){
+        var username = $('#username').val();
+        if (username == '') {
+            username_state = false;
+            return;
+        }
+        $.ajax({
+            url: '/ajax',
+            type: 'post',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({CheckUser: username,CheckMail:"",CheckPsw:""}),
+            dataType: 'json',
+            success: function(response){
+            if (response.CheckUser == 'taken' ) {
+                username_state = false;
+                $('#username').parent().removeClass();
+                $('#username').parent().addClass("form_error");
+                $('#username').siblings("span").text('Sorry... Username already taken');
+            }else  {
+                username_state = true;
+                $('#username').parent().removeClass();
+                $('#username').parent().addClass("form_success");
+                $('#username').siblings("span").text('Username available');
+            }
+            }
+        });
+        });
+        $('#email').on('blur', function(){
+      	var email = $('#email').val();
+ 	      if (email == '') {
+ 		    email_state = false;
+ 		    return;
+ 	      }
+ 	      $.ajax({
+            url: '/ajax',
+            type: 'post',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({CheckUser: "",CheckMail: email, CheckPsw:""}),
+            dataType: 'json',
+            success: function(response){
+            if (response.CheckMail == 'taken' ) {
+              email_state = false;
+              $('#email').parent().removeClass();
+              $('#email').parent().addClass("form_error");
+              $('#email').siblings("span").text('Sorry... Email already taken');
+            }else  {
+              email_state = true;
+              $('#email').parent().removeClass();
+              $('#email').parent().addClass("form_success");
+              $('#email').siblings("span").text('Email available');
+            }
+          }
+          });
+        });
+        $('#form').on('submit', function(){
+        var username = $('#username').val();
+        var email = $('#email').val();
+        var password = $('#psw').val();
+        if (username_state == false || email_state == false){
+          $('#span1').text('Mail or Username is already taken');
+          return false;
+        }
+        $('#span1').text('Everything good please wait');
+        return true;
+        });
+        var myInput = document.getElementById("psw");
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+        
+        // When the user clicks on the password field, show the message box
+        myInput.onfocus = function() {
+          document.getElementById("message").style.display = "block";
+          var lowerCaseLetters = /[a-z]/g;
+          if(myInput.value.match(lowerCaseLetters)) {  
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+          } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+          }
+          
+          // Validate capital letters
+          var upperCaseLetters = /[A-Z]/g;
+          if(myInput.value.match(upperCaseLetters)) {  
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+          } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+          }
+        
+          // Validate numbers
+          var numbers = /[0-9]/g;
+          if(myInput.value.match(numbers)) {  
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+          } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+          }
+          
+          // Validate length
+          if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+          } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+          }
+        }
+        
+        // When the user clicks outside of the password field, hide the message box
+        myInput.onblur = function() {
+          document.getElementById("message").style.display = "none";
+        }
+        
+        // When the user starts to type something inside the password field
+        myInput.onkeyup = function() {
+          // Validate lowercase letters
+          var lowerCaseLetters = /[a-z]/g;
+          if(myInput.value.match(lowerCaseLetters)) {  
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+          } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+          }
+          
+          // Validate capital letters
+          var upperCaseLetters = /[A-Z]/g;
+          if(myInput.value.match(upperCaseLetters)) {  
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+          } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+          }
+        
+          // Validate numbers
+          var numbers = /[0-9]/g;
+          if(myInput.value.match(numbers)) {  
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+          } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+          }
+          
+          // Validate length
+          if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+          } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+          }
+        }
+        </script>
+  
+</body>

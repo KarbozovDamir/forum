@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <title>Forum</title>
+</head>
+
+<body>
+
+    <div class="topnav" id="div1">
+        <a href="/articles">Articles</a>
+        <a href="/about">Contact</a>
+        <a href="/rules">Rules</a>
+        <div class="login-container">
+            <a id="a5" href="/login">Log in</a>
+            <a id="a3" href="/register">Sign up</a>
+            <a id="a6" href="/id/{{.ID}}">My Profile</a>
+            <a id="a4" href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <div id="div3">
+        <div id="div6">
+            <form action="/thread/create" method="POST" id="shityform" enctype="multipart/form-data">
+                <p id="p7"> Title:</p>
+                <div id="div5">Formulate in a few words what your topic is about.</div>
+
+                <input type="text" id="title" name="title" pattern=".{1,}" title="Please type something" required><br><br>
+                <textarea rows="10" name="comment" form="shityform" id="comment" placeholder="Enter text here..." required></textarea>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <input type="file" accept="image/*" name="FileImage" id="inpFile" style="width: 250px;">
+
+                <div id="div5">Select one or more caterories:</div>
+
+                <br/>
+                <div>
+                    <label id="lab2"><input type="checkbox" name="Art" id="in1">Art</label>
+
+                    <label id="lab2"><input type="checkbox" name="Animal" id="in1">Animal</label>
+
+                    <label id="lab2"><input type="checkbox" name="Books" id="in1">Books</label>
+
+                    <label id="lab2"><input type="checkbox" name="Courses" id="in1">Courses</label>
+
+                    <label id="lab2"><input type="checkbox" name="Food" id="in1">Food</label>
+
+                    <label id="lab2"><input type="checkbox" name="Fun" id="in1">Funny</label>
+
+                    <label id="lab2"><input type="checkbox" name="Free" id="in1">Free</label>
+
+                    <label id="lab2"><input type="checkbox" name="Games" id="in1">Games</label>
+
+                    <label id="lab2"><input type="checkbox" name="History" id="in1">History</label>
+
+                    <label id="lab2"><input type="checkbox" name="News" id="in1">News</label>
+
+                    <label id="lab2"><input type="checkbox" name="Music" id="in1">Music</label>
+
+                    <label id="lab2"><input type="checkbox" name="Technology" id="in1">Technology</label>
+
+                    <label id="lab2"><input type="checkbox" name="Trade" id="in1">Trade</label>
+
+                    <label id="lab2"><input type="checkbox" name="Sport" id="in1">Sport</label>
+
+                    <label id="lab2"><input type="checkbox" name="Oftop" id="in1">Oftop</label>
+
+                </div>
+                <br>
+                <br>
+                <br>
+                <button type="submit">Create Thread</button>
+                <br>
+                <div id="div5">
+                    <p>Note: If you don't select a category, thread automatically will be marked as Oftop</p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        inpFile.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                if (file.size > 20 * 1024 * 1024) {
+                    window.alert("The file is too big");
+                    inpFile.value = ""
+                }
+            }
+        })
+
+        if ("{{.Authorised}}" == "true") {
+            $('#a6').show()
+            $('#a4').show()
+        } else {
+            $('#a5').show()
+            $('#a3').show()
+        }
+    </script>
+
+</body>
+
+</html>
