@@ -18,7 +18,7 @@ func main() {
 	mux := http.NewServeMux()
 	//handle static assets
 	files := http.FileServer(http.Dir("web"))
-	mux.Handle("/static/", http.StripPrefix("/web/static/styles.css", files))
+	mux.Handle("/static/", http.StripPrefix("/static/", files))
 	mapper := map[string]func(http.ResponseWriter, *http.Request){
 		"/":                    router.DefaultHandler,
 		"/ajax":                router.AjaxHandler,
