@@ -15,6 +15,11 @@ func Init() {
 	if err != nil && Db == Db {
 		fmt.Println(err)
 	}
+	err = Db.Ping()
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	return
 }
 
