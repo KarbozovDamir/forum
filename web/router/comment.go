@@ -27,7 +27,7 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, err error, status int)
 		case 5:
 			Parser.Error = []byte("Internal error has been occured")
 		}
-		http.Redirect(w, r, "/error", 302)
+		http.Redirect(w, r, "/error", 302) //Found error
 	}
 }
 

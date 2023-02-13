@@ -1,7 +1,8 @@
 package data
 
 import (
-	"errors"
+	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -73,7 +74,7 @@ func GetThreadByID(ID int) (thread Thread, err error) {
 	thread = Thread{}
 	err = Db.QueryRow("select * from Thread where ThreadID = $1", ID).Scan(&thread.Title, &thread.UserID, &thread.Likes, &thread.Dislikes, &thread.ThreadID, &thread.ToThreadID, &thread.Date, &thread.Content, &thread.Category, &thread.Username, &thread.Image)
 	if thread.Title == "" {
-		err = errors.New("It's comment")
+		err = fmt.Errorf("it's comment %v", err.Error())
 	}
 	return
 }
@@ -81,8 +82,15 @@ func GetThreadByID(ID int) (thread Thread, err error) {
 //GetAllToThreadByID - Get All ToThread By ThreadID
 func GetAllToThreadByID(ThreadID int, UserID int) []Thread {
 	tmp := []Thread{}
-	rows, _ := Db.Query("select * from Thread where ToThreadID = $1", ThreadID)
-	defer rows.Close()
+	rows, err := Db.Query("select * from Thread where ToThreadID = $1", ThreadID)
+	if err != nil {
+		log.Println("err: ", err.Error())
+	}
+	defer func() {
+		if rows != nil {
+			rows.Close()
+		}
+	}()
 	for rows.Next() {
 		cur := Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
@@ -157,7 +165,11 @@ func AddNewValueToThread(UserID int, ThreadID int, Value int) {
 func GetAllUserCreatedPosts(UserID int) []Thread {
 	tmp := []Thread{}
 	rows, _ := Db.Query("select * from Thread where UserID = $1", UserID)
-	defer rows.Close()
+	defer func() {
+		if rows != nil {
+			rows.Close()
+		}
+	}()
 	for rows.Next() {
 		cur := Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
@@ -175,7 +187,11 @@ func GetAllUserCreatedPosts(UserID int) []Thread {
 func GetAllUserLikedThread(UserID int) []Thread {
 	tmp := []Thread{}
 	rows, _ := Db.Query("select * from Thread where ThreadID > 0")
-	defer rows.Close()
+	defer func() {
+		if rows != nil {
+			rows.Close()
+		}
+	}()
 	for rows.Next() {
 		cur := Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
@@ -194,7 +210,11 @@ func GetAllUserLikedThread(UserID int) []Thread {
 func GetAllUserLikedComments(UserID int) []Thread {
 	tmp := []Thread{}
 	rows, _ := Db.Query("select * from Thread where ThreadID > 0")
-	defer rows.Close()
+	defer func() {
+		if rows != nil {
+			rows.Close()
+		}
+	}()
 	for rows.Next() {
 		cur := Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
@@ -212,8 +232,21 @@ func GetAllUserLikedComments(UserID int) []Thread {
 //GetAll - All threads
 func GetAll(UserID int) []Thread {
 	tmp := []Thread{}
-	rows, _ := Db.Query("select * from Thread where ThreadID > 0")
-	defer rows.Close()
+	rows, err := Db.Query("select * from Thread where ThreadID > 0")
+	if err != nil {
+		return tmp
+	}
+
+	defer func() {
+		if rows != nil {
+			rows.Close()
+		}
+	}()
+	// defer func() {
+	// 	if rows != nil {
+	// 		rows.Close()
+	// 	}
+	// }()
 	for rows.Next() {
 		cur := Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)

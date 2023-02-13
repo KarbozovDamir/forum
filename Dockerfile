@@ -1,9 +1,9 @@
 FROM golang:1.16
 
 LABEL "site.name"="FORUM" \
-      release-date="march, 2023" \
+      release-date="March, 2023" \
       description="forum" \
-      authors="nrblzn and damirkap89"
+      authors="nrblzn | damirkap89"
 WORKDIR /forum
 
 

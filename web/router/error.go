@@ -1,6 +1,7 @@
 package router
 
 import (
+	"log"
 	"net/http"
 	"text/template"
 )
@@ -24,7 +25,11 @@ func Error(w http.ResponseWriter, r *http.Request) {
 	if string(Parser.Result[:]) == "" {
 		http.Redirect(w, r, "/articles", 302)
 	}
-	tmpl, _ := template.ParseFiles("/web/templates/error.html")
+	tmpl, err := template.ParseFiles("./web/templates/error.html")
+	if err != nil {
+		log.Println("err: ", err.Error())
+		return
+	}
 	tmpl.Execute(w, Parser)
 }
 

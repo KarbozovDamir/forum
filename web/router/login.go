@@ -32,10 +32,10 @@ type ViewData struct {
 // Parser for templates - value to template html page
 var Parser ViewData
 
-// DefaultHandler - Default Request Handler
+// DefaultHandler - Default Request Handler1
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	tmpl, _ := template.ParseFiles("web/templates/login.html")
+	tmpl, _ := template.ParseFiles("/web/templates/login.html")
 	if r.URL.Path[1:] == "register" {
 		if Parser.Authorised == true {
 			http.Redirect(w, r, "/articles", 302)

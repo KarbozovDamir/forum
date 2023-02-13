@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-//About - A little information about our forum
+//About - info about forum
 func About(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	tmpl, _ := template.ParseFiles("/web/templates/about.html")
