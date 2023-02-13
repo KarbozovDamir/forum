@@ -35,13 +35,13 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	ErrorHandler(w, r, nil, 0)
 	user, _ := data.GetUserByID(Parser.ID)
-	tmpl, _ := template.ParseFiles("/web/templatess/CreateThread.html")
+	tmpl, _ := template.ParseFiles("/web/templates/CreateThread.html")
 	if r.Method == "POST" {
 		num, err := data.CreateTH(r, Parser.ID, user.Username)
 		if err != nil {
 			ErrorHandler(w, r, err, 5)
 		}
-		http.Redirect(w, r, "/thread/"+strconv.Itoa(num), 302)
+		http.Redirect(w, r, "/thread/"+strconv.Itoa(num), code)
 
 	}
 	tmpl.Execute(w, Parser)
@@ -50,10 +50,10 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 //Post - Page to Thread
 func Post(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	tmpl, _ := template.ParseFiles("/web/templatess/thread.html")
+	tmpl, _ := template.ParseFiles("/web/templates/thread.html")
 	if r.Method == "POST" {
 		Comment(w, r)
-		http.Redirect(w, r, r.URL.Path, 302)
+		http.Redirect(w, r, r.URL.Path, code)
 	}
 	x, err := strconv.Atoi(r.URL.Path[8:])
 	if err != nil {
@@ -113,7 +113,7 @@ func Stats(w http.ResponseWriter, r *http.Request) {
 func Articles(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	Parser.Data = data.GetAll(Parser.ID)
-	tmpl, _ := template.ParseFiles("/web/templatess/articles.html")
+	tmpl, _ := template.ParseFiles("web/templates/articles.html")
 	tmpl.Execute(w, Parser)
 }
 

@@ -12,6 +12,6 @@ func Rules(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path[6:] != "" {
 		ErrorHandler(w, r, errors.New("no such page"), 2)
 	}
-	tmpl, _ := template.ParseFiles("./web/templatess/rules.html")
+	tmpl, _ := template.ParseFiles("web/templates/rules.html")
 	tmpl.Execute(w, Parser)
 }

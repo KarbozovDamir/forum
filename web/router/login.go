@@ -38,7 +38,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("/web/templates/login.html")
 	if r.URL.Path[1:] == "register" {
 		if Parser.Authorised == true {
-			http.Redirect(w, r, "/articles", 302)
+			http.Redirect(w, r, "/articles", code)
 		}
 		tmpl, _ = template.ParseFiles("web/templates/register.html")
 		if r.Method == "GET" {
@@ -46,7 +46,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	} else if r.URL.Path[1:] == "login" || r.URL.Path == "/" {
 		if Parser.Authorised == true {
-			http.Redirect(w, r, "/articles", 302)
+			http.Redirect(w, r, "/articles", code)
 		}
 		tmpl, _ = template.ParseFiles("web/templates/login.html")
 		if r.Method == "GET" {
@@ -68,7 +68,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 				user.CreateAndSetSession(w, r)
 				Parser.Authorised = true
 				Parser.ID = user.ID
-				http.Redirect(w, r, "/articles", 302)
+				http.Redirect(w, r, "/articles", code)
 			}
 			tmpl.Execute(w, Parser)
 		}

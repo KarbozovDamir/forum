@@ -12,7 +12,7 @@ import (
 //Profile - Profile page of user
 func Profile(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	tmpl, _ := template.ParseFiles("/web/templatess/profile.html")
+	tmpl, _ := template.ParseFiles("/web/templates/profile.html")
 	x, err2 := strconv.Atoi(r.URL.Path[4:])
 	user, err := data.GetUserByID(x)
 	if err2 != nil {
@@ -65,5 +65,5 @@ func UpdateAva(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, err, 5)
 		return
 	}
-	http.Redirect(w, r, "/id/"+strconv.Itoa(user.ID), 302)
+	http.Redirect(w, r, "/id/"+strconv.Itoa(user.ID), code)
 }

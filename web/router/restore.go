@@ -15,7 +15,7 @@ func Restore(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, errors.New("no such page"), 2)
 	}
 	Parser.Result = ""
-	tmpl, _ := template.ParseFiles("/web/templatess/restore.html")
+	tmpl, _ := template.ParseFiles("web/templates/restore.html")
 	if r.Method == "GET" {
 		tmpl.Execute(w, Parser)
 	} else {
@@ -27,9 +27,9 @@ func Restore(w http.ResponseWriter, r *http.Request) {
 			Parser.Result = "Your password successfully changed"
 			user.Update(w, r, r.Form["psw"][0])
 			if Parser.Authorised == true {
-				http.Redirect(w, r, "/logout", 302)
+				http.Redirect(w, r, "/logout", code)
 			} else {
-				http.Redirect(w, r, "/", 302)
+				http.Redirect(w, r, "/", code)
 			}
 		}
 		tmpl.Execute(w, Parser)

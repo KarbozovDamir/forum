@@ -49,34 +49,3 @@ func main() {
 	}
 	server.ListenAndServe()
 }
-
-// func main() {
-// 	// create handlers
-// 	handlers, err := router.NewMainHandler()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	server := new(Server)
-// 	if err := server.Run("4000", handlers.InitRoutes()); err != nil {
-// 		log.Printf("ERROR: %s\n", err)
-
-// 	}
-// }
-
-// type Server struct {
-// 	httpServer *http.Server
-// }
-
-// // starting up the server
-// func (s *Server) Run(port string, handler http.Handler) error {
-// 	s.httpServer = &http.Server{
-// 		Addr:         ":" + port,
-// 		Handler:      handler,
-// 		ReadTimeout:  5 * time.Second, // return cont.Done() if up time limit
-// 		WriteTimeout: 5 * time.Second, // return cont.Done() if up time limit
-// 	}
-
-// 	log.Printf("Server runs on http://localhost%s\n", s.httpServer.Addr)
-// 	err := s.httpServer.ListenAndServe()
-// 	return fmt.Errorf("Server.Run: %w", err)
-// }
