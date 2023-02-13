@@ -35,7 +35,7 @@ var Parser ViewData
 // DefaultHandler - Default Request Handler1
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	tmpl, _ := template.ParseFiles("/web/templates/login.html")
+	tmpl, _ := template.ParseFiles("web/templates/login.html")
 	if r.URL.Path[1:] == "register" {
 		if Parser.Authorised == true {
 			http.Redirect(w, r, "/articles", code)

@@ -40,7 +40,7 @@ func String(length int) string {
 // SendRestoreCodeToUser - needs to allow restore password if user fargot it
 func SendRestoreCodeToUser(mail, code string) {
 	from := "forum.bot.alem@gmail.com"
-	password := "8LYL6GnWpwqgs3k" // Receiver email address.
+	password := "uiibohsfucztgpjt" // Receiver email address.
 	to := []string{
 		mail,
 	} // smtp server configuration.

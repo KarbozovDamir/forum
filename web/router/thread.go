@@ -35,7 +35,7 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	ErrorHandler(w, r, nil, 0)
 	user, _ := data.GetUserByID(Parser.ID)
-	tmpl, _ := template.ParseFiles("/web/templates/CreateThread.html")
+	tmpl, _ := template.ParseFiles("web/templates/createthread.html")
 	if r.Method == "POST" {
 		num, err := data.CreateTH(r, Parser.ID, user.Username)
 		if err != nil {
@@ -50,7 +50,7 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 //Post - Page to Thread
 func Post(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	tmpl, _ := template.ParseFiles("/web/templates/thread.html")
+	tmpl, _ := template.ParseFiles("web/templates/thread.html")
 	if r.Method == "POST" {
 		Comment(w, r)
 		http.Redirect(w, r, r.URL.Path, code)

@@ -104,42 +104,23 @@
             })
         })
 
-        {
-            {
-                range $i, $v: = .Data
-            }
-        }
-        var taggs = '{{.Category}}'
-        var arr = taggs.split('$')
-        var ThreadID = {
-            {.ThreadID
-            }
-        }
-        var UserID = {
-            {.UserID
-            }
-        }
-        var Title = "{{.Title}}"
-        var Username = "{{.Username}}"
-        var date = "{{.Date}}"
-        var score = {
-            {.Likes
-            }
-        } - {
-            {.Dislikes
-            }
-        }
-        console.log(arr)
-        for (let i = 0; i < arr.length; i++) {
-
-            document.getElementById(arr[i]).insertAdjacentHTML('beforeend', `<td class='con'><a id ="${ThreadID}" href="thread/${ThreadID}" class='title' target='_blank' style="text-decoration:none;color:white;font-size:10pt;" >${Title}</a><br/><span class="subtext">${score} score by <a href="/id/${UserID}" target="_blank" style="text-decoration:none;color:white;">${Username}</a> on ${date}</span></td>`)
-
-        } {
-            {
-                end
-            }
-        }
-        if ("{{.Authorised}}" == "true") {
+       {{range $i, $v := .Data}}
+    var taggs = '{{.Category}}'
+    var arr = taggs.split('$')
+    var ThreadID = {{.ThreadID}}
+    var UserID = {{.UserID}}
+    var Title = "{{.Title}}"
+    var Username = "{{.Username}}"
+    var date = "{{.Date}}"
+    var score = {{.Likes}} - {{.Dislikes}}
+    console.log(arr)
+    for(let i = 0;i < arr.length; i ++){
+            // document.getElementById(arr[i]).insertAdjacentHTML('beforeend',`1`)
+        document.getElementById(arr[i]).insertAdjacentHTML('beforeend',`<td class='con'><a id ="${ThreadID}" href="thread/${ThreadID}" class='title' target='_blank' style="text-decoration:none;color:white;font-size:10pt;" >${Title}</a><br/><span class="subtext">${score} score by <a href="/id/${UserID}" target="_blank" style="text-decoration:none;color:white;">${Username}</a> on ${date}</span></td>`)
+      
+    }
+    {{end}}
+    if ("{{.Authorised}}" == "true") {
             $('#a6').show()
             $('#a4').show()
             $('#a8').show()

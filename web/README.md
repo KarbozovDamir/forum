@@ -1,4 +1,4 @@
-# `/web`
+# `web`
 ##### site: https://www.educative.io/answers/what-is-html-template-in-golang
 
 
