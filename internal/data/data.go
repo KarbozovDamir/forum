@@ -11,7 +11,7 @@ var Db *sql.DB
 //Init - Initilizate
 func Init() {
 	var err error
-	Db, err = sql.Open("sqlite3", "./forum")
+	Db, err = sql.Open("sqlite3", "forum")
 	if err != nil && Db == Db {
 		fmt.Println(err)
 	}
