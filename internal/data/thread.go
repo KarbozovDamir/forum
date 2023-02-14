@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -73,10 +72,7 @@ func CreateTH(r *http.Request, ID int, username string) (int, error) {
 func GetThreadByID(ID int) (thread Thread, err error) {
 	thread = Thread{}
 	err = Db.QueryRow("select * from Thread where ThreadID = $1", ID).Scan(&thread.Title, &thread.UserID, &thread.Likes, &thread.Dislikes, &thread.ThreadID, &thread.ToThreadID, &thread.Date, &thread.Content, &thread.Category, &thread.Username, &thread.Image)
-	if thread.Title == "" {
-		err = fmt.Errorf("it's comment %v", err.Error())
-	}
-	return
+	return thread, err
 }
 
 //GetAllToThreadByID - Get All ToThread By ThreadID
@@ -242,11 +238,7 @@ func GetAll(UserID int) []Thread {
 			rows.Close()
 		}
 	}()
-	// defer func() {
-	// 	if rows != nil {
-	// 		rows.Close()
-	// 	}
-	// }()
+
 	for rows.Next() {
 		cur := Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)

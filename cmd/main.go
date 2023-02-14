@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/KarbozovDamir/forum/internal/data"
-	"github.com/KarbozovDamir/forumweb/router"
+	"github.com/KarbozovDamir/forum/web/router"
 	_ "github.com/mattn/go-sqlite3"
 )
 
