@@ -11,9 +11,9 @@ import (
 
 func main() {
 	data.Init()
-	// defer data.CloseDB()
+	defer data.CloseDB()
 	mux := http.NewServeMux()
-	//handle static assets
+	// handle static assets
 	files := http.FileServer(http.Dir("web"))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 	mapper := map[string]func(http.ResponseWriter, *http.Request){
