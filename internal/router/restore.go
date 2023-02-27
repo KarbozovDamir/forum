@@ -8,7 +8,7 @@ import (
 	data "github.com/KarbozovDamir/forum/data"
 )
 
-//Restore password
+// Restore password
 func Restore(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	if r.URL.Path[8:] != "" {
@@ -20,12 +20,13 @@ func Restore(w http.ResponseWriter, r *http.Request) {
 		tmpl.Execute(w, Parser)
 	} else {
 		r.ParseForm()
-		user, err := data.GetUserByUsername(r.Form["username"][0])
-		if err != nil || user.Code != r.Form["code"][0] {
+		capsule, err := data.GetUserByUsername(r.Form["username"][0])
+		service := data.UserService{User: &capsule}
+		if err != nil || service.User.Code != r.Form["code"][0] {
 			Parser.Result = "Sorry wrong code or username"
 		} else {
 			Parser.Result = "Your password successfully changed"
-			user.Update(w, r, r.Form["psw"][0])
+			service.Update(w, r, r.Form["psw"][0])
 			if Parser.Authorised == true {
 				http.Redirect(w, r, "/logout", code)
 			} else {

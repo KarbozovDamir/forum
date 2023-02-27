@@ -12,10 +12,10 @@ import (
 )
 
 type UserService struct {
-	user *models.User
+	User *models.User
 }
 
-//GetUserByUsername - Get it man
+// GetUserByUsername - Get it man
 func GetUserByUsername(username string) (user models.User, err error) {
 	username = strings.ToLower(username)
 	user = models.User{}
@@ -23,7 +23,7 @@ func GetUserByUsername(username string) (user models.User, err error) {
 	return
 }
 
-//GetUserByMail - Get it man
+// GetUserByMail - Get it man
 func GetUserByMail(mail string) (user models.User, err error) {
 	mail = strings.ToLower(mail)
 	user = models.User{}
@@ -31,14 +31,14 @@ func GetUserByMail(mail string) (user models.User, err error) {
 	return
 }
 
-//GetUserByID - Get it man
+// GetUserByID - Get it man
 func GetUserByID(ID int) (user models.User, err error) {
 	user = models.User{}
 	err = Db.QueryRow("select * from Users where id = $1", ID).Scan(&user.Mail, &user.Username, &user.Psw, &user.ID, &user.Code)
 	return
 }
 
-//CreateAndSetSession - Method for user
+// CreateAndSetSession - Method for user
 func (service *UserService) CreateAndSetSession(w http.ResponseWriter, r *http.Request) (err error) {
 	uid := uuid.NewV4()
 	hour := time.Duration(24)
@@ -46,15 +46,15 @@ func (service *UserService) CreateAndSetSession(w http.ResponseWriter, r *http.R
 		hour *= 30
 	}
 	expiration := time.Now().Add(time.Hour * hour)
-	Db.Exec("delete from Session where UserId = $1", service.user.ID)
-	_, err = Db.Exec("insert into Session(UserId, Uuid, Time) values ($1, $2, $3)", service.user.ID, uid, expiration)
+	Db.Exec("delete from Session where UserId = $1", service.User.ID)
+	_, err = Db.Exec("insert into Session(UserId, Uuid, Time) values ($1, $2, $3)", service.User.ID, uid, expiration)
 	cookie := http.Cookie{Name: "Cookie", Value: fmt.Sprintf("%s", uid), Expires: expiration, HttpOnly: true}
 	http.SetCookie(w, &cookie)
 	return
 }
 
-//Update - update password
+// Update - update password
 func (service *UserService) Update(w http.ResponseWriter, r *http.Request, newpass string) {
 	pswEncrypted, _ := bcrypt.GenerateFromPassword([]byte(newpass), 1)
-	Db.Exec("update Users set psw = $1 where username = $2", pswEncrypted, service.user.Username)
+	Db.Exec("update Users set psw = $1 where username = $2", pswEncrypted, service.User.Username)
 }

@@ -4,11 +4,13 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
+	"github.com/KarbozovDamir/forum/internal/models"
 )
 
 const code = 302
 
-//ErrorHandler - Allow us to handle errors in forum
+// ErrorHandler - Allow us to handle errors in forum
 func ErrorHandler(w http.ResponseWriter, r *http.Request, err error, status int) {
 	if status == 0 {
 		if !Parser.Authorised {
@@ -28,22 +30,22 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, err error, status int)
 		case 5:
 			Parser.Error = []byte("Internal error has been occured")
 		}
-		http.Redirect(w, r, "/error", code) //Found error
+		http.Redirect(w, r, "/error", code) // Found error
 	}
 }
 
-//SetAndDelete - Sets and clears two variables
+// SetAndDelete - Sets and clears two variables
 func SetAndDelete(s *string, t *[]byte) {
 	*s = string(*t)
 	*t = make([]byte, 0)
 }
 
-//Reset - Reset all values after templates except main attributes
-func Reset(x *ViewData) {
-	*x = ViewData{Authorised: x.Authorised, ID: x.ID}
+// Reset - Reset all values after templates except main attributes
+func Reset(x *models.ViewData) {
+	*x = models.ViewData{Authorised: x.Authorised, ID: x.ID}
 }
 
-//Error - html page to handle errors
+// Error - html page to handle errors
 func Error(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	defer Reset(&Parser)

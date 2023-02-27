@@ -9,7 +9,7 @@ import (
 	data "github.com/KarbozovDamir/forum/data"
 )
 
-//Profile - Profile page of user
+// Profile - Profile page of user
 func Profile(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	tmpl, _ := template.ParseFiles("web/templates/profile.html")
@@ -24,13 +24,13 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		Parser.Title = user.Username
 		Parser.Result = user.Mail
 		if Parser.Authorised {
-			Parser.Data = data.GetAllUserCreatedPosts(user.ID)
-			Parser.Data2 = data.GetAllUserLikedThread(user.ID)
-			Parser.Data3 = data.GetAllUserLikedComments(user.ID)
+			Parser.Threads = data.GetAllUserCreatedPosts(user.ID)
+			Parser.LikedThreads = data.GetAllUserLikedThread(user.ID)
+			Parser.LikedComments = data.GetAllUserLikedComments(user.ID)
 		}
-		Parser.CountOfPosts = len(Parser.Data)
-		Parser.CountOfLikedThreads = len(Parser.Data2)
-		Parser.CountOfLikedComments = len(Parser.Data3)
+		Parser.CountOfPosts = len(Parser.Threads)
+		Parser.CountOfLikedThreads = len(Parser.LikedThreads)
+		Parser.CountOfLikedComments = len(Parser.LikedComments)
 		if Parser.ID == user.ID {
 			Parser.Me = true
 		}
@@ -46,7 +46,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//UpdateAva - Updating our avatar image
+// UpdateAva - Updating our avatar image
 func UpdateAva(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	x, err2 := strconv.Atoi(r.URL.Path[20:])

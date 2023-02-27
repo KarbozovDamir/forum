@@ -51,17 +51,17 @@
             <button class="butlist" id="butlist2">Liked posts({{.CountOfLikedThreads}})</button>
             <button class="butlist" id="butlist3">Liked comments({{.CountOfLikedComments}})</button>
             <ul class="posts">
-                {{range $i, $v := .Data}}
+                {{range $i, $v := .Threads}}
                 <li class="some"><a href="/thread/{{.ThreadID}}" style="text-decoration:none" id="listthread">{{.Title}}</a></li>
                 {{end}}
             </ul>
             <ul class="posts">
-                {{range $i, $v := .Data2}}
+                {{range $i, $v := .LikedThreads}}
                 <li class="some2"><a href="/thread/{{.ThreadID}}" style="text-decoration:none" id="listthread">{{.Title}}</a></li>
                 {{end}}
             </ul>
             <ul class="posts">
-                {{range $i, $v := .Data3}}
+                {{range $i, $v := .LikedComments}}
                 <li class="some3"><a href="/thread/{{.ToThreadID}}#{{.ThreadID}}" style="text-decoration:none" id="listthread">Go to Thread #{{.ToThreadID}}: {{$x}} liked comment #{{.ThreadID}} </a></li>
                 {{end}}
             </ul>

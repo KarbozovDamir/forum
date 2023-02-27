@@ -10,7 +10,7 @@ import (
 	data "github.com/KarbozovDamir/forum/data"
 )
 
-//StatsTH - struct of Thread statistic
+// StatsTH - struct of Thread statistic
 type StatsTH struct {
 	ThreadID string
 	Value    int
@@ -19,7 +19,7 @@ type StatsTH struct {
 	Liked    string
 }
 
-//Authorised - Is user authorised ?
+// Authorised - Is user authorised ?
 func Authorised(r *http.Request) {
 	id, err := data.CheckCookie(r)
 	if err == nil {
@@ -30,7 +30,7 @@ func Authorised(r *http.Request) {
 	}
 }
 
-//CreateThread - Html page to Create Thread
+// CreateThread - Html page to Create Thread
 func CreateThread(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	ErrorHandler(w, r, nil, 0)
@@ -47,7 +47,7 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, Parser)
 }
 
-//Post - Page to Thread
+// Post - Page to Thread
 func Post(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
 	tmpl, _ := template.ParseFiles("web/templates/thread.html")
@@ -67,7 +67,7 @@ func Post(w http.ResponseWriter, r *http.Request) {
 			user, _ := data.GetUserByID(CurThread.UserID)
 			Parser.Result = user.Username
 			Parser.Time = CurThread.Date
-			Parser.Data = data.GetAllToThreadByID(CurThread.ThreadID, Parser.ID)
+			Parser.Threads = data.GetAllToThreadByID(CurThread.ThreadID, Parser.ID)
 			Parser.Image = "Thread" + strconv.Itoa(CurThread.ThreadID)
 			if data.FindImage(Parser.Image) != nil {
 				Parser.Image = ""
@@ -76,7 +76,6 @@ func Post(w http.ResponseWriter, r *http.Request) {
 			Reset(&Parser)
 		}
 	}
-
 }
 
 // Stats - Ajax handler to online statistic
@@ -109,16 +108,16 @@ func Stats(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//Articles - List of articles
+// Articles - List of articles
 func Articles(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	Parser.Data = data.GetAll(Parser.ID)
+	Parser.Threads = data.GetAll(Parser.ID)
 	tmpl, _ := template.ParseFiles("web/templates/articles.html")
 	tmpl.Execute(w, Parser)
 }
 
-//DeleteThread - Need Update After
+// DeleteThread - Need Update After
 func DeleteThread() {}
 
-//EditThread - New Feature
+// EditThread - New Feature
 func EditThread() {}

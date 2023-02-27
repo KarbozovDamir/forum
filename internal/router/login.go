@@ -8,29 +8,30 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	data "github.com/KarbozovDamir/forum/data"
+	"github.com/KarbozovDamir/forum/internal/models"
 	utils "github.com/KarbozovDamir/forum/internal/utils"
 )
 
-//ViewData - struct to template html page
-type ViewData struct {
-	Result               string
-	Authorised           bool
-	ID                   int
-	Title                string
-	Time                 string
-	Data                 []data.Thread
-	Data2                []data.Thread
-	Data3                []data.Thread
-	Error                []byte
-	CountOfPosts         int
-	CountOfLikedThreads  int
-	CountOfLikedComments int
-	Me                   bool
-	Image                string
-}
+// // ViewData - struct to template html page
+// type ViewData struct {
+// 	Result               string
+// 	Authorised           bool
+// 	ID                   int
+// 	Title                string
+// 	Time                 string
+// 	Data                 []data.Thread //
+// 	Data2                []data.Thread
+// 	Data3                []data.Thread
+// 	Error                []byte
+// 	CountOfPosts         int
+// 	CountOfLikedThreads  int
+// 	CountOfLikedComments int
+// 	Me                   bool
+// 	Image                 string
+// }
 
 // Parser for templates - value to template html page
-var Parser ViewData
+var Parser models.ViewData
 
 // DefaultHandler - Default Request Handler1
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
@@ -57,17 +58,20 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 			if len(r.Form) == 3 && !ok {
 				utils.AddUser(r.Form["username"][0], r.Form["mail"][0], r.Form["psw"][0])
 			}
-			user, err := data.GetUserByUsername(r.Form["username"][0])
+			capsule, err := data.GetUserByUsername(r.Form["username"][0])
+			service := data.UserService{User: &capsule}
 			if err != nil {
-				user, err = data.GetUserByMail(r.Form["username"][0])
+				capsule, err = data.GetUserByMail(r.Form["username"][0])
+				service = data.UserService{User: &capsule}
+
 			}
-			if err != nil || bcrypt.CompareHashAndPassword([]byte(user.Psw), []byte(r.Form["psw"][0])) != nil {
+			if err != nil || bcrypt.CompareHashAndPassword([]byte(service.User.Psw), []byte(r.Form["psw"][0])) != nil {
 				Parser.Result = "Sorry the username or password is not correct\n"
 				defer Reset(&Parser)
 			} else {
-				user.CreateAndSetSession(w, r)
+				service.CreateAndSetSession(w, r)
 				Parser.Authorised = true
-				Parser.ID = user.ID
+				Parser.ID = service.User.ID
 				http.Redirect(w, r, "/articles", code)
 			}
 			tmpl.Execute(w, Parser)
