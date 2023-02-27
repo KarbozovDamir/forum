@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	data "github.com/KarbozovDamir/forum/internal/data"
+	data "github.com/KarbozovDamir/forum/data"
 )
 
 //Comment - Allow authorised users to comment Threads

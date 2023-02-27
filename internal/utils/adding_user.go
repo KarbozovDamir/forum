@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	data "github.com/KarbozovDamir/forum/internal/data"
+	data "github.com/KarbozovDamir/forum/data"
 	"golang.org/x/crypto/bcrypt"
 )
 

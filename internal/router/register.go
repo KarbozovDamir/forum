@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	data "github.com/KarbozovDamir/forum/internal/data"
+	data "github.com/KarbozovDamir/forum/data"
 )
 
 //Users - special struct for db

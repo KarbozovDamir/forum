@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	data "github.com/KarbozovDamir/forum/internal/data"
+	data "github.com/KarbozovDamir/forum/data"
 )
 
 //LogOut - log out

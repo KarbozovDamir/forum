@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"text/template"
 
-	data "github.com/KarbozovDamir/forum/internal/data"
+	data "github.com/KarbozovDamir/forum/data"
 )
 
 //Restore password

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	data "github.com/KarbozovDamir/forum/internal/data"
+	data "github.com/KarbozovDamir/forum/data"
 	"github.com/KarbozovDamir/forum/internal/router"
 	_ "github.com/mattn/go-sqlite3"
 )
