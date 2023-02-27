@@ -2,7 +2,7 @@ package data
 
 import (
 	"database/sql"
-	"fmt"
+	"log"
 )
 
 //Db - our database
@@ -12,19 +12,14 @@ var Db *sql.DB
 func Init() {
 	var err error
 	Db, err = sql.Open("sqlite3", "forum")
-	if err != nil && Db == Db {
-		fmt.Println(err)
+	defer Db.Close()
+	if err != nil {
+		log.Fatal(err)
+		return
 	}
 	err = Db.Ping()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal("Init: failed to connect database")
 	}
 
-	return
-}
-
-//CloseDB - to close db
-func CloseDB() {
-	Db.Close()
-	return
 }

@@ -3,18 +3,15 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 
-	"github.com/KarbozovDamir/forum/internal/data"
-	"github.com/KarbozovDamir/forum/web/router"
+	data "github.com/KarbozovDamir/forum/internal/data"
+	"github.com/KarbozovDamir/forum/internal/router"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var Ok bool
-
 func main() {
 	data.Init()
-	defer data.CloseDB()
+	// defer data.CloseDB()
 	mux := http.NewServeMux()
 	//handle static assets
 	files := http.FileServer(http.Dir("web"))
@@ -39,13 +36,10 @@ func main() {
 		mux.HandleFunc(pattern, handler)
 	}
 
-	fmt.Println("Server is listening...")
+	fmt.Println("Server is listening on port: 8181")
 	server := &http.Server{
-		Addr:           "0.0.0.0:8181",
-		Handler:        mux,
-		ReadTimeout:    time.Duration(10 * int64(time.Second)),
-		WriteTimeout:   time.Duration(600 * int64(time.Second)),
-		MaxHeaderBytes: 1 << 20,
+		Addr:    "127.0.0.1:8181",
+		Handler: mux,
 	}
 	server.ListenAndServe()
 }

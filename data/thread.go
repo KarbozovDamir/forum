@@ -5,34 +5,13 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/KarbozovDamir/forum/internal/models"
 )
-
-//Thread - struct for Thread
-type Thread struct {
-	Title      string
-	UserID     int
-	Likes      int
-	Dislikes   int
-	ThreadID   int
-	ToThreadID int
-	Date       string
-	Content    string
-	Category   string
-	Username   string
-	Image      string
-	Liked      int
-}
-
-//ThreadStats - struct for statistic Thread
-type ThreadStats struct {
-	FromUserID int
-	ToThreadID int
-	Value      int
-}
 
 //CreateTH - Adding Thread to Database
 func CreateTH(r *http.Request, ID int, username string) (int, error) {
-	var CurTH Thread
+	var CurTH models.Thread
 	err2 := r.ParseMultipartForm(20 << 20)
 	if err2 != nil {
 		return 0, err2
@@ -56,9 +35,7 @@ func CreateTH(r *http.Request, ID int, username string) (int, error) {
 		}
 		category += i
 	}
-	Db.Exec("insert into Thread(Title, UserID, Likes, Dislikes, ToThreadID, Date, Content, Category, Username, Image) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", r.FormValue("title"), ID, 0, 0, 0, time.Now().Format("2006-01-02 15:04"), r.FormValue("comment"), category, username, "")
-	Db.QueryRow("select * from Thread where ToThreadID = 0").Scan(&CurTH.Title, &CurTH.UserID, &CurTH.Likes, &CurTH.Dislikes, &CurTH.ThreadID, &CurTH.ToThreadID, &CurTH.Date, &CurTH.Content, &CurTH.Category, &CurTH.Username, &CurTH.Image)
-	Db.Exec("update Thread set ToThreadID = $1 where ThreadID = $2", CurTH.ThreadID, CurTH.ThreadID)
+
 	err := AddImage("Thread"+strconv.Itoa(CurTH.ThreadID), 0, CurTH.ThreadID, r)
 	if err != nil && err.Error() == "No image" {
 		err = nil
@@ -69,15 +46,15 @@ func CreateTH(r *http.Request, ID int, username string) (int, error) {
 }
 
 //GetThreadByID - Get Thread By ID
-func GetThreadByID(ID int) (thread Thread, err error) {
-	thread = Thread{}
+func GetThreadByID(ID int) (thread models.Thread, err error) {
+	thread = models.Thread{}
 	err = Db.QueryRow("select * from Thread where ThreadID = $1", ID).Scan(&thread.Title, &thread.UserID, &thread.Likes, &thread.Dislikes, &thread.ThreadID, &thread.ToThreadID, &thread.Date, &thread.Content, &thread.Category, &thread.Username, &thread.Image)
 	return thread, err
 }
 
 //GetAllToThreadByID - Get All ToThread By ThreadID
-func GetAllToThreadByID(ThreadID int, UserID int) []Thread {
-	tmp := []Thread{}
+func GetAllToThreadByID(ThreadID int, UserID int) []models.Thread {
+	tmp := []models.Thread{}
 	rows, err := Db.Query("select * from Thread where ToThreadID = $1", ThreadID)
 	if err != nil {
 		log.Println("err: ", err.Error())
@@ -88,7 +65,7 @@ func GetAllToThreadByID(ThreadID int, UserID int) []Thread {
 		}
 	}()
 	for rows.Next() {
-		cur := Thread{}
+		cur := models.Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
 		if err != nil {
 			break
@@ -101,7 +78,7 @@ func GetAllToThreadByID(ThreadID int, UserID int) []Thread {
 
 //CheckUserLikedThread - Did a user liked this thread?
 func CheckUserLikedThread(UserID int, ThreadID int) int {
-	Stats := ThreadStats{}
+	Stats := models.ThreadStats{}
 	row := Db.QueryRow("select * from ThreadStats where FromUserID = $1 and ToThreadID = $2", UserID, ThreadID)
 	err := row.Scan(&Stats.FromUserID, &Stats.ToThreadID, &Stats.Value)
 	if err != nil {
@@ -136,7 +113,7 @@ func UpdateThreadStats(ThreadID int, Value int, operation string) {
 
 //AddNewValueToThread - function allow to dislike and like comments or threads
 func AddNewValueToThread(UserID int, ThreadID int, Value int) {
-	Stats := ThreadStats{}
+	Stats := models.ThreadStats{}
 	row := Db.QueryRow("select * from ThreadStats where FromUserID = $1 and ToThreadID = $2", UserID, ThreadID)
 	err := row.Scan(&Stats.FromUserID, &Stats.ToThreadID, &Stats.Value)
 	if err == nil {
@@ -158,8 +135,8 @@ func AddNewValueToThread(UserID int, ThreadID int, Value int) {
 }
 
 //GetAllUserCreatedPosts - Get List of Created Threads by User
-func GetAllUserCreatedPosts(UserID int) []Thread {
-	tmp := []Thread{}
+func GetAllUserCreatedPosts(UserID int) []models.Thread {
+	tmp := []models.Thread{}
 	rows, _ := Db.Query("select * from Thread where UserID = $1", UserID)
 	defer func() {
 		if rows != nil {
@@ -167,7 +144,7 @@ func GetAllUserCreatedPosts(UserID int) []Thread {
 		}
 	}()
 	for rows.Next() {
-		cur := Thread{}
+		cur := models.Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
 		if err != nil {
 			break
@@ -180,8 +157,8 @@ func GetAllUserCreatedPosts(UserID int) []Thread {
 }
 
 //GetAllUserLikedThread - Get List of Liked Threads by User
-func GetAllUserLikedThread(UserID int) []Thread {
-	tmp := []Thread{}
+func GetAllUserLikedThread(UserID int) []models.Thread {
+	tmp := []models.Thread{}
 	rows, _ := Db.Query("select * from Thread where ThreadID > 0")
 	defer func() {
 		if rows != nil {
@@ -189,7 +166,7 @@ func GetAllUserLikedThread(UserID int) []Thread {
 		}
 	}()
 	for rows.Next() {
-		cur := Thread{}
+		cur := models.Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
 		cur.Liked = CheckUserLikedThread(UserID, cur.ThreadID)
 		if err != nil {
@@ -203,8 +180,8 @@ func GetAllUserLikedThread(UserID int) []Thread {
 }
 
 //GetAllUserLikedComments - Get List of Liked Comments By User
-func GetAllUserLikedComments(UserID int) []Thread {
-	tmp := []Thread{}
+func GetAllUserLikedComments(UserID int) []models.Thread {
+	tmp := []models.Thread{}
 	rows, _ := Db.Query("select * from Thread where ThreadID > 0")
 	defer func() {
 		if rows != nil {
@@ -212,7 +189,7 @@ func GetAllUserLikedComments(UserID int) []Thread {
 		}
 	}()
 	for rows.Next() {
-		cur := Thread{}
+		cur := models.Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
 		cur.Liked = CheckUserLikedThread(UserID, cur.ThreadID)
 		if err != nil {
@@ -226,8 +203,8 @@ func GetAllUserLikedComments(UserID int) []Thread {
 }
 
 //GetAll - All threads
-func GetAll(UserID int) []Thread {
-	tmp := []Thread{}
+func GetAll(UserID int) []models.Thread {
+	tmp := []models.Thread{}
 	rows, err := Db.Query("select * from Thread where ThreadID > 0")
 	if err != nil {
 		return tmp
@@ -240,7 +217,7 @@ func GetAll(UserID int) []Thread {
 	}()
 
 	for rows.Next() {
-		cur := Thread{}
+		cur := models.Thread{}
 		err := rows.Scan(&cur.Title, &cur.UserID, &cur.Likes, &cur.Dislikes, &cur.ThreadID, &cur.ToThreadID, &cur.Date, &cur.Content, &cur.Category, &cur.Username, &cur.Image)
 		if err != nil {
 			break

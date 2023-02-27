@@ -4,14 +4,9 @@ import (
 	"errors"
 	"net/http"
 	"time"
-)
 
-//Session - Our database second table
-type Session struct {
-	UserID int
-	UUID   string
-	Time   time.Time
-}
+	"github.com/KarbozovDamir/forum/internal/models"
+)
 
 //DeleteByUUID - Easy way
 func DeleteByUUID(s string) {
@@ -21,7 +16,7 @@ func DeleteByUUID(s string) {
 
 //CheckCookie - takes cookie from browser and
 func CheckCookie(r *http.Request) (ID int, err2 error) {
-	var tmpSession Session
+	tmpSession := models.Session{}
 	cookie, err := r.Cookie("Cookie")
 	if err == nil {
 		err = Db.QueryRow("select * from Session where Uuid = $1", cookie.Value).Scan(&tmpSession.UserID, &tmpSession.UUID, &tmpSession.Time)

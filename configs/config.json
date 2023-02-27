@@ -2,5 +2,5 @@
     "Address": "0.0.0.0:8181",
     "ReadTimeout": 10,
     "WriteTimeout": 600,
-    "Static": "static"
+    "Static": "web"
 }

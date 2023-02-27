@@ -13,10 +13,10 @@ func AddUser(username, mail, psw string) {
 	pswEncrypted, _ := bcrypt.GenerateFromPassword([]byte(psw), 1)
 
 	code := String(6)
-	_, err3 := data.Db.Exec("insert into Users(mail, username, psw, code) values ($1, $2, $3, $4)", strings.ToLower(mail), strings.ToLower(username), pswEncrypted, code)
+	_, err := data.Db.Exec("insert into Users(mail, username, psw, code) values ($1, $2, $3, $4)", strings.ToLower(mail), strings.ToLower(username), pswEncrypted, code)
 	SendRestoreCodeToUser(mail, code)
-	if err3 != nil {
-		fmt.Println("AddUser is broken 3")
-		fmt.Println(err3)
+	if err != nil {
+		fmt.Println("Utils/AddUser is broken")
+		fmt.Println("Info: ", err)
 	}
 }
