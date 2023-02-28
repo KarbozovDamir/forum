@@ -56,7 +56,7 @@ func UpdateAva(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if user.ID != Parser.ID {
-		ErrorHandler(w, r, errors.New("No permission"), 4)
+		ErrorHandler(w, r, errors.New("no permission"), 4)
 		return
 	}
 	Parser.Image = "User" + strconv.Itoa(user.ID)

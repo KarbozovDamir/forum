@@ -12,26 +12,8 @@ import (
 	utils "github.com/KarbozovDamir/forum/internal/utils"
 )
 
-// // ViewData - struct to template html page
-// type ViewData struct {
-// 	Result               string
-// 	Authorised           bool
-// 	ID                   int
-// 	Title                string
-// 	Time                 string
-// 	Data                 []data.Thread //
-// 	Data2                []data.Thread
-// 	Data3                []data.Thread
-// 	Error                []byte
-// 	CountOfPosts         int
-// 	CountOfLikedThreads  int
-// 	CountOfLikedComments int
-// 	Me                   bool
-// 	Image                 string
-// }
-
 // Parser for templates - value to template html page
-var Parser models.ViewData
+var Parser models.ViewData //
 
 // DefaultHandler - Default Request Handler1
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {

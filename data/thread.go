@@ -35,6 +35,9 @@ func CreateTH(r *http.Request, ID int, username string) (int, error) {
 		}
 		category += i
 	}
+	Db.Exec("insert into Thread(Title, UserID, Likes, Dislikes, ToThreadID, Date, Content, Category, Username, Image) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", r.FormValue("title"), ID, 0, 0, 0, time.Now().Format("2006-01-02 15:04"), r.FormValue("comment"), category, username, "")
+	Db.QueryRow("select * from Thread where ToThreadID = 0").Scan(&CurTH.Title, &CurTH.UserID, &CurTH.Likes, &CurTH.Dislikes, &CurTH.ThreadID, &CurTH.ToThreadID, &CurTH.Date, &CurTH.Content, &CurTH.Category, &CurTH.Username, &CurTH.Image)
+	Db.Exec("update Thread set ToThreadID = $1 where ThreadID = $2", CurTH.ThreadID, CurTH.ThreadID)
 
 	err := AddImage("Thread"+strconv.Itoa(CurTH.ThreadID), 0, CurTH.ThreadID, r)
 	if err != nil && err.Error() == "No image" {

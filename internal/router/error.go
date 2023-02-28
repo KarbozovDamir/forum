@@ -8,7 +8,16 @@ import (
 	"github.com/KarbozovDamir/forum/internal/models"
 )
 
-const code = 302
+// type HttpError struct {
+// 	Err  error
+// 	Code int
+// }
+
+// func (hr *HttpError) Error() string {
+// 	return fmt.Sprintf("Description %v", hr.Err.Error())
+// }
+
+const code = 302 //redirect
 
 // ErrorHandler - Allow us to handle errors in forum
 func ErrorHandler(w http.ResponseWriter, r *http.Request, err error, status int) {
@@ -20,15 +29,15 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, err error, status int)
 	if err != nil {
 		switch status {
 		case 1:
-			Parser.Error = []byte("No such thread")
+			Parser.Error = []byte("400: Bad Request => No such thread")
 		case 2:
-			Parser.Error = []byte("No such page")
+			Parser.Error = []byte("404: Not Found => No such page")
 		case 3:
-			Parser.Error = []byte("No such user")
+			Parser.Error = []byte("400: Bad Request => No such user")
 		case 4:
-			Parser.Error = []byte("You don't have permission")
+			Parser.Error = []byte("403: Forbidden => You don't have permission")
 		case 5:
-			Parser.Error = []byte("Internal error has been occured")
+			Parser.Error = []byte("500: Internal Server Error")
 		}
 		http.Redirect(w, r, "/error", code) // Found error
 	}

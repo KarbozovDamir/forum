@@ -8,8 +8,6 @@ import (
 	data "github.com/KarbozovDamir/forum/data"
 )
 
-//Users - special struct for db
-
 //Data - needs to send data to our html
 type Data struct {
 	CheckUser, CheckMail, CheckPsw string
