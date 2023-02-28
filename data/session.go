@@ -11,7 +11,7 @@ import (
 //DeleteByUUID - Easy way
 func DeleteByUUID(s string) {
 	Db.Exec("delete from Session where Uuid = $1", s)
-	return
+
 }
 
 //CheckCookie - takes cookie from browser and

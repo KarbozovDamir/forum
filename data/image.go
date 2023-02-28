@@ -14,7 +14,7 @@ import (
 func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 	file, fileheader, err := r.FormFile("FileImage")
 	if fileheader == nil || file == nil {
-		return errors.New("No image")
+		return errors.New("no image")
 	}
 	if err != nil {
 		return err
@@ -31,7 +31,7 @@ func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 		return err
 	}
 
-	f, err := os.OpenFile("./public/images/"+name, os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile("/static/images/"+name, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}
@@ -43,17 +43,17 @@ func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 //AllowedImages - Checking is Image allowed to read and upload
 func AllowedImages(file multipart.File, fileheader *multipart.FileHeader) error {
 	size := fileheader.Size
-	if size > 20<<20 {
-		return errors.New("Image is too big")
+	if size > 20<<20 { //req size of image
+		return errors.New("image is too big")
 	}
 	buff := make([]byte, 512)
 	if _, err := file.Read(buff); err != nil {
-		return errors.New("Can't read Image")
+		return errors.New("can't read Image")
 	}
 	file.Seek(0, 0)
 	contentType := http.DetectContentType(buff)
 	if len(contentType) < 6 || contentType[:6] != "image/" {
-		return errors.New("It's not image")
+		return errors.New("it's not image")
 	}
 	return nil
 }

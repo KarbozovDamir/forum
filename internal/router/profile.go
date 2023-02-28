@@ -39,7 +39,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			Parser.Image = "/static/images/default-avatar.jpg"
 		} else {
-			Parser.Image = "/static/images/User" + strconv.Itoa(user.ID)
+			Parser.Image = "/static/images/" + strconv.Itoa(user.ID)
 		}
 		tmpl.Execute(w, Parser)
 		Reset(&Parser)
@@ -49,7 +49,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 // UpdateAva - Updating our avatar image
 func UpdateAva(w http.ResponseWriter, r *http.Request) {
 	Authorised(r)
-	x, err2 := strconv.Atoi(r.URL.Path[20:])
+	x, err2 := strconv.Atoi(r.URL.Path[20:]) // x its number of id user
 	user, err := data.GetUserByID(x)
 	if err != nil || err2 != nil || r.Method == "GET" {
 		ErrorHandler(w, r, err, 2)
