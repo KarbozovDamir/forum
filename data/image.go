@@ -10,7 +10,7 @@ import (
 	"github.com/KarbozovDamir/forum/internal/models"
 )
 
-//AddImage - Adding Image to database and to localfiles
+// AddImage - Adding Image to database and to localfiles
 func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 	file, fileheader, err := r.FormFile("FileImage")
 	if fileheader == nil || file == nil {
@@ -25,13 +25,13 @@ func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 	}
 
 	curImage := models.Image{}
-	Db.Exec("delete from Images where Path = $1", curImage)
-	_, err = Db.Exec("insert into Images(Path, IsUser, ID) values ($1, $2, $3)", curImage, curImage.IsUser, curImage.ID)
+	Db.Exec("delete from Images where Path = $1", curImage.Path)
+	_, err = Db.Exec("insert into Images(Path, IsUser, ID) values ($1, $2, $3)", curImage.Path, curImage.IsUser, curImage.ID)
 	if err != nil {
 		return err
 	}
 
-	f, err := os.OpenFile("/static/images/"+name, os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile("/static/images/"+name, os.O_WRONLY|os.O_CREATE, 0o666)
 	if err != nil {
 		return err
 	}
@@ -40,10 +40,10 @@ func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 	return nil
 }
 
-//AllowedImages - Checking is Image allowed to read and upload
+// AllowedImages - Checking is Image allowed to read and upload
 func AllowedImages(file multipart.File, fileheader *multipart.FileHeader) error {
 	size := fileheader.Size
-	if size > 20<<20 { //req size of image
+	if size > 20<<20 { // req size of image
 		return errors.New("image is too big")
 	}
 	buff := make([]byte, 512)
@@ -58,8 +58,8 @@ func AllowedImages(file multipart.File, fileheader *multipart.FileHeader) error 
 	return nil
 }
 
-//FindImage with this path
+// FindImage with this path
 func FindImage(path string) error {
 	tmpImage := models.Image{}
-	return Db.QueryRow("select * from Images where Path = $1", path).Scan(&tmpImage, &tmpImage.IsUser, &tmpImage.ID)
+	return Db.QueryRow("select * from Images where Path = $1", path).Scan(&tmpImage.Path, &tmpImage.IsUser, &tmpImage.ID)
 }

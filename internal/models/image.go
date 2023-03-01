@@ -1,7 +1,7 @@
 package models
 
 type Image struct {
-	path   string
+	Path   string
 	IsUser int
 	ID     int
 }
