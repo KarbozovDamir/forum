@@ -6,9 +6,13 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
-
-	"github.com/KarbozovDamir/forum/internal/models"
 )
+
+type Image struct {
+	Path   string
+	IsUser int
+	ID     int
+}
 
 // AddImage - Adding Image to database and to localfiles
 func AddImage(name string, IsUser int, ID int, r *http.Request) error {
@@ -24,7 +28,7 @@ func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 		return err
 	}
 
-	curImage := models.Image{}
+	curImage := Image{}
 	Db.Exec("delete from Images where Path = $1", curImage.Path)
 	_, err = Db.Exec("insert into Images(Path, IsUser, ID) values ($1, $2, $3)", curImage.Path, curImage.IsUser, curImage.ID)
 	if err != nil {
@@ -60,6 +64,6 @@ func AllowedImages(file multipart.File, fileheader *multipart.FileHeader) error 
 
 // FindImage with this path
 func FindImage(path string) error {
-	tmpImage := models.Image{}
+	tmpImage := Image{}
 	return Db.QueryRow("select * from Images where Path = $1", path).Scan(&tmpImage.Path, &tmpImage.IsUser, &tmpImage.ID)
 }
