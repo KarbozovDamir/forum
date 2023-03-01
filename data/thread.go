@@ -61,7 +61,7 @@ func CreateTH(r *http.Request, ID int, username string) (int, error) {
 	Db.Exec("update Thread set ToThreadID = $1 where ThreadID = $2", CurTH.ThreadID, CurTH.ThreadID)
 
 	err := AddImage("Thread"+strconv.Itoa(CurTH.ThreadID), 0, CurTH.ThreadID, r)
-	if err != nil && err.Error() == "No image" {
+	if err != nil && err.Error() == "no image" {
 		err = nil
 	} else {
 		Db.Exec("update Thread set Image = $1 where ThreadID = $2", "Thread"+strconv.Itoa(CurTH.ThreadID), CurTH.ThreadID)

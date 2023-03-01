@@ -28,14 +28,15 @@ func AddImage(name string, IsUser int, ID int, r *http.Request) error {
 		return err
 	}
 
-	curImage := Image{}
+	curImage := Image{Path: name, IsUser: IsUser, ID: ID}
 	Db.Exec("delete from Images where Path = $1", curImage.Path)
 	_, err = Db.Exec("insert into Images(Path, IsUser, ID) values ($1, $2, $3)", curImage.Path, curImage.IsUser, curImage.ID)
+
 	if err != nil {
 		return err
 	}
 
-	f, err := os.OpenFile("/static/images/"+name, os.O_WRONLY|os.O_CREATE, 0o666)
+	f, err := os.OpenFile("web/images/"+name, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}

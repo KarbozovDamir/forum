@@ -8,12 +8,29 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	data "github.com/KarbozovDamir/forum/data"
-	"github.com/KarbozovDamir/forum/internal/models"
 	utils "github.com/KarbozovDamir/forum/internal/utils"
 )
 
+// ViewData - struct to template html page
+type ViewData struct {
+	Result               string
+	Authorised           bool
+	ID                   int
+	Title                string
+	Time                 string
+	Threads              []data.Thread // ctreate posts and output posts
+	LikedThreads         []data.Thread
+	LikedComments        []data.Thread
+	Error                []byte
+	CountOfPosts         int
+	CountOfLikedThreads  int
+	CountOfLikedComments int
+	Me                   bool
+	Image                string
+}
+
 // Parser for templates - value to template html page
-var Parser models.ViewData //
+var Parser ViewData //
 
 // DefaultHandler - Default Request Handler1
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,20 +57,17 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 			if len(r.Form) == 3 && !ok {
 				utils.AddUser(r.Form["username"][0], r.Form["mail"][0], r.Form["psw"][0])
 			}
-			capsule, err := data.GetUserByUsername(r.Form["username"][0])
-			service := data.UserService{User: &capsule}
+			user, err := data.GetUserByUsername(r.Form["username"][0])
 			if err != nil {
-				capsule, err = data.GetUserByMail(r.Form["username"][0])
-				service = data.UserService{User: &capsule}
-
+				user, err = data.GetUserByMail(r.Form["username"][0])
 			}
-			if err != nil || bcrypt.CompareHashAndPassword([]byte(service.User.Psw), []byte(r.Form["psw"][0])) != nil {
+			if err != nil || bcrypt.CompareHashAndPassword([]byte(user.Psw), []byte(r.Form["psw"][0])) != nil {
 				Parser.Result = "Sorry the username or password is not correct\n"
 				defer Reset(&Parser)
 			} else {
-				service.CreateAndSetSession(w, r)
+				user.CreateAndSetSession(w, r)
 				Parser.Authorised = true
-				Parser.ID = service.User.ID
+				Parser.ID = user.ID
 				http.Redirect(w, r, "/articles", code)
 			}
 			tmpl.Execute(w, Parser)

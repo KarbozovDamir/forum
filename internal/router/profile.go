@@ -39,7 +39,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			Parser.Image = "/static/images/default-avatar.jpg"
 		} else {
-			Parser.Image = "/static/images/" + strconv.Itoa(user.ID)
+			Parser.Image = "/static/images/User" + strconv.Itoa(user.ID)
 		}
 		tmpl.Execute(w, Parser)
 		Reset(&Parser)
