@@ -15,6 +15,7 @@ RUN go mod download
 # Copy necessary files
 ADD cmd cmd/
 ADD configs configs/
+ADD data data/
 ADD internal internal/
 ADD web web/
 
