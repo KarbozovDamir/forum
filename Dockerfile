@@ -1,4 +1,4 @@
-FROM golang:1.16
+FROM golang:latest
 
 LABEL "site.name"="FORUM" \
       release-date="March, 2023" \
@@ -20,6 +20,7 @@ ADD internal internal/
 ADD web web/
 
 # Build application
+RUN go mod tidy
 RUN go build -o main cmd/main.go
 
 EXPOSE 8181
