@@ -42,5 +42,6 @@ func Comment(w http.ResponseWriter, r *http.Request) {
 	CurThread, err := data.GetThreadByID(x)
 	ErrorHandler(w, r, err, 1)
 	user, _ := data.GetUserByID(Parser.ID)
+	ErrorHandler(w, r, err, 4)
 	data.CreateCommentToThread(r, Parser.ID, CurThread.ThreadID, user.Username)
 }
